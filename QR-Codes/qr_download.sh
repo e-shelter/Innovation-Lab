@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Author: Matteo Lugaresi
+# Date: 14.08.2020
+# Purpose: Given a URL, generate and download the corresponding QR-Codes via an on-line service 
+
 generate_post_data()
 {
   cat <<EOF
@@ -40,7 +44,7 @@ EOF
 
 # Upload an image that will be used as a logo for the QR code
 
-logo=$(curl -v -F 'file=@Zalando.jpg' -H 'Content-Type: multipart/form-data' https://qr-generator.qrcode.studio/qr/uploadimage)
+logo=$(curl -v -F 'file=@logo.jpg' -H 'Content-Type: multipart/form-data' https://qr-generator.qrcode.studio/qr/uploadimage)
 logo=$(echo "$logo" | cut -f 4 -d "\"")
 echo "Result: $logo"
 
@@ -63,9 +67,9 @@ do
 	
 	echo "QR URL: http:$qr"
 	
-	curl "https:$qr" -o images/BTD-Z/${name}.png
+	curl "https:$qr" -o images/${name}.png
 	
 	sleep 2
 	
-done < BTD-Z.txt
+done < input.txt
 
